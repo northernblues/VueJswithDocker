@@ -1,75 +1,43 @@
-# simple-vue-app
+# VueJswithDocker
+To set up a Vue.js application and deploy it using Docker
+Here are the steps I followed to set up a Vue.js application and deploy it using Docker:
 
-## What is the use of this Repo [![Generic badge](https://img.shields.io/badge/What-VueJS-blue.svg)](https://vuejs.org/v2/guide/)
+1.	First, I created a Vue.js app inside the src folder, as shown in my Github repository.
 
-This Repo demonstrates the use of the following in vuejs
-1. Vue Routing
-2. Components
-3. Communication between Components ( Parent to child component )
-4. Axios Library to make HTTP calls
 
-## Application Live URL [![Generic badge](https://img.shields.io/badge/Deployed-Success-green.svg)](https://aditya-sridhar.github.io/simple-vuejs-app/)
+2.	Next, I created four files: docker-compose.yml, Dockerfile, Dockerfile-build-app, and Dockerfile-create-app.
 
-The Application is deployed in
-### https://aditya-sridhar.github.io/simple-vuejs-app/
 
-## Prerequisites
 
-### Install NodeJS [![Generic badge](https://img.shields.io/badge/Prerequisite-NodeJS-blue.svg)](https://nodejs.org/en/)
+3.	In the docker-compose.yml file, I created an app service with the following content:
+	![image](https://user-images.githubusercontent.com/99163931/228205987-a8f3a64a-f8a6-4762-8d63-f423f49f2dfb.png)
 
-Refer https://nodejs.org/en/ to install NodeJS
 
-### Install Vue Cli [![Generic badge](https://img.shields.io/badge/Prerequisite-VueCli-blue.svg)](https://cli.vuejs.org/guide/)
 
-Install Vue Cli Node Package Globally using the following Command.
+4.	In the Dockerfile, I specified the base image as node:lts-alpine and set the working directory as /app. I copied the package.json file to the working directory, installed the app dependencies, exposed port 8080, and set the command to run the npm run serve script.
 
-```bash
-npm install -g @vue/cli
-```
-## Cloning and Running the Application
+![image](https://user-images.githubusercontent.com/99163931/228206095-5e925178-c9e6-4c01-b36e-e019d9fec910.png)
 
-Clone the application to local
 
-Go into the project Folder and install the npm packages using the following command
-```bash
-npm install
-```
-Run the following command to run the application
-```
-npm run serve
-```
-The Application runs on **localhost:8080**
+ 
 
-## Application Design
+5.	In the Dockerfile-build-app, I first specified a base image as node:lts-alpine and set the working directory as /app. I then copied the package.json file and installed the app dependencies. Next, I added the app by copying everything in the current directory to the /app directory. Finally, I generated the build by running the npm run build command.
 
-### Views and components
+![image](https://user-images.githubusercontent.com/99163931/228206121-dec492f5-0d6a-4c9d-87ea-c52b1c4b647d.png)
 
-**Customers** : This View Displays a list of customers and gets the data from a json from assets folder
+ 
 
-**CustomerDetails** : This View Displays the Details of a single customer and gets the data from a json from assets Folder
+6.	In the Dockerfile-create-app, I specified the base image as node:lts-alpine and set the working directory as /app. I installed the Vue CLI and created a new Vue.js project using the vue create command. Finally, I changed the ownership of all files in the current directory to the current user using sudo chown -R $USER:$(id -gn $USER) ./*.
 
-**Display** : Display component displays the name of the selected customer in **Customers** View. **Display** is a child component of **Customers** View
+![image](https://user-images.githubusercontent.com/99163931/228206141-77d86593-06ba-4071-a848-2aef84a1e2d0.png)
 
-### Http Library [![Generic badge](https://img.shields.io/badge/http-axios-blue.svg)](https://www.npmjs.com/package/axios)
+ 
 
-**axios** library is used to make http calls
+7.	Finally, I ran the commands in the comments at the end of each file to build and run the Docker containers. For example, to build the production Docker image, I ran the following command:
+docker build -t vue-prod -f Dockerfile-build-app .
 
-### Routing
+ 
+	![image](https://user-images.githubusercontent.com/99163931/228206170-46e9381c-28b3-4c81-a7b4-031077572375.png)
 
-The Application has 2 endpoints
 
-**/customers** : The ties to *Customers* View
 
-**/customerdetails** : This ties to *CustomerDetails* View
-
-## References
-
-**VueJS** : https://vuejs.org/v2/guide/
-
-**vue cli** : https://cli.vuejs.org/guide/
-
-**axios** : https://www.npmjs.com/package/axios
-
-**vue bootstrap** : https://bootstrap-vue.js.org/docs
-
-**vue router** : https://router.vuejs.org/guide/
